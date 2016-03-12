@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    React
+    <script src="https://fb.me/react-0.14.7.min.js">
+    </script>
+    <script src="https://fb.me/react-dom-0.14.7.min.js">
+    </script>
+
+<!-- <script src="https://fb.me/react-0.14.7.js" -->
+<!--         integrity="sha384-xQae1pUPdAKUe0u0KUTNt09zzdwheX4VSUsV8vatqM+t6X7rta01qOzessL808ox" -->
+<!--         crossorigin="anonymous"></script> -->
+<!-- <script src="https://fb.me/react-dom-0.14.7.js" -->
+<!--         integrity="sha384-A1t0GCrR06cTHvMjaxeSE8XOiz6j7NvWdmxhN/9z748wEvJTVk13Rr8gMzTUnd8G" -->
+<!--         crossorigin="anonymous"></script> -->
+
+
+    <!-- Firebase -->
+    <script src="https://cdn.firebase.com/js/client/2.4.0/firebase.js">
+    </script>
+
+    <!-- ReactFire -->
+    <script src="https://cdn.firebase.com/libs/reactfire/0.6.0/reactfire.min.js">
+    </script>
+
+    <!-- <\!-- throw-in-the-towel -\-> -->
+    <!-- <script src="https://npmcdn.com/throw-in-the-towel@2"> -->
+    <!-- </script> -->
+
+    <!-- Custom JS -->
+
+
+    <!-- <script src="js/ttt.js"> -->
+    <!-- </script> -->
+
+
+<!-- <script type="text/javascript"> -->
+<!-- console.log("test loaded"); -->
+<!-- </script> -->
+
+<!-- var ref = new Firebase("https://igrins-hk.firebaseio.com/BasicHK"); -->
+<!-- // Attach an asynchronous callback to read the data at our posts reference -->
+<!-- ref.orderByChild("utc_now").limitToLast(1).on("child_added", function(snapshot) { -->
+<!--   console.log(snapshot.val()); -->
+<!-- }, function (errorObject) { -->
+<!--   console.log("The read failed: " + errorObject.code); -->
+<!-- }); -->
+
+<!-- </script> -->
+
+    <style type='text/css'>
+body {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.vs {
+    font-family: Tahoma;
+    font-size: 90px;
+    font-weight: bold;
+    color: #FF0;
+}
+
+.vp {
+    font-family: Tahoma;
+    font-size: 90px;
+    font-weight: bold;
+    color: #6F0;
+}
+
+.ts {
+    font-family: Tahoma;
+    font-size: 65px;
+    font-weight: bold;
+    color: #FFF;
+}
+
+.ti {
+    font-family: Tahoma;
+    font-size: 72px;
+    font-weight: bold;
+    color: #FFF;
+}
+
+.tm {
+    font-family: Tahoma;
+    font-size: 60px;
+    font-weight: bold;
+    color: #FF0
+}
+    </style>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="sb-admin.css">
+
+
+  </head>
+  <body bgcolor='black' scroll='no' topmargin='0' marginwidth='0' marginheight='0' scroll='no'>
+
+      <font class='ti'>McD
+      </font>
+      <font class='ts'>&nbsp;IGRINS Watchdog&nbsp;
+      </font>
+      <!-- <font class='tm'> -->
+      <!-- 	<font color=red>is Sleeping. -->
+      <!-- 	</font> -->
+      <!-- </font> -->
+
+
+        <div class="todoAppContainer">
+	    <div id="HKApp"></div>
+        </div>
+
+    <script type="text/javascript" src="js/IgrinsHKApp.js">
+    </script>
+
+
+                <!-- <div class="row"> -->
+                <!--     <div class="col-lg-6 col-md-12"> -->
+                <!--         <div class="panel panel-primary"> -->
+                <!--             <div class="panel-heading"> -->
+                <!--                 <div class="row"> -->
+                <!--                     <div class="col-lg-6 col-md-12 text-left"> -->
+                <!--                         <\!-- <i class="fa fa-comments fa-5x"></i> -\-> -->
+		<!-- 			<div class="huge"> Pressure [Torr]</div> -->
+                <!--                     </div> -->
+                <!--                     <div class="col-lg-6 col-md-12 text-right"> -->
+                <!--                         <div class="huge">26</div> -->
+                <!--                     </div> -->
+                <!--                 </div> -->
+                <!--             </div> -->
+                <!--             <a href="#"> -->
+                <!--                 <div class="panel-footer"> -->
+                <!--                     <span class="pull-left"></span> -->
+                <!--                     <span class="pull-right"></span> -->
+                <!--                     <div class="clearfix"></div> -->
+                <!--                 </div> -->
+                <!--             </a> -->
+                <!--         </div> -->
+                <!--     </div> -->
+                <!--     <div class="col-lg-6 col-md-12"> -->
+                <!--         <div class="panel panel-primary"> -->
+                <!--             <div class="panel-heading"> -->
+                <!--                 <div class="row"> -->
+                <!--                     <div class="col-lg-6 col-md-12 text-left"> -->
+                <!--                         <\!-- <i class="fa fa-comments fa-5x"></i> -\-> -->
+		<!-- 			<div class="huge"> BenchTC</div> -->
+                <!--                     </div> -->
+                <!--                     <div class="col-lg-6 col-md-12 text-right"> -->
+                <!--                         <div class="huge">26 %</div> -->
+                <!--                     </div> -->
+                <!--                 </div> -->
+                <!--             </div> -->
+                <!--             <a href="#"> -->
+                <!--                 <div class="panel-footer"> -->
+                <!--                     <span class="pull-left"></span> -->
+                <!--                     <span class="pull-right"></span> -->
+                <!--                     <div class="clearfix"></div> -->
+                <!--                 </div> -->
+                <!--             </a> -->
+                <!--         </div> -->
+                <!--     </div> -->
+		<!-- </div> -->
+
+
+
+
+  </body>
+</html>
