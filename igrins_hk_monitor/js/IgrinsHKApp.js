@@ -2,12 +2,12 @@ function get_time_diff( datetime )
 {
     var datetime = typeof datetime !== 'undefined' ? datetime : "2014-01-01 01:02:03.123456";
 
-    console.log( datetime);
+    // console.log( datetime);
 
     var datetime = new Date( datetime ) //.getTime();
     // var now = new Date().getTime();
 
-    console.log("cur time " +  datetime);
+    // console.log("cur time " +  datetime);
 
     var now = new Date(); 
     var now_utc = now;
@@ -20,7 +20,7 @@ function get_time_diff( datetime )
         return "";
     }
 
-    console.log( datetime + " " + now + " " + now_utc);
+    // console.log( datetime + " " + now + " " + now_utc);
 
     if (datetime < now_utc) {
         var milisec_diff = now_utc - datetime;
@@ -145,9 +145,10 @@ var DatetimeLabel = React.createClass({
       var dt = this.props.value;
       var msg = "";
 
+      // console.log("123" + dt)
       day_hour_min = get_time_diff( dt );
 
-      console.log(day_hour_min)
+      // console.log(day_hour_min)
 
       if (day_hour_min[0] > 0) {
 	  msg = "older than " + day_hour_min[0] + " days";
@@ -188,7 +189,7 @@ var TempLabel = React.createClass({
 
   render: function() {
     var _this = this;
-    return make_label(this.props.label, parseFloat(this.props.value).toFixed(1), "C", "primary");
+    return make_label(this.props.label, this.props.value.toFixed(1), "C", "primary");
   }
 });
 
@@ -197,35 +198,7 @@ var PercentLabel = React.createClass({
 
   render: function() {
     var _this = this;
-    return make_label(this.props.label, parseFloat(this.props.value).toFixed(2), "%", "primary");
-  }
-});
-
-
-
-
-var TodoList = React.createClass({
-  displayName: "TodoList",
-
-  render: function () {
-    var _this = this;
-    var createItem = function (item, index) {
-      return React.createElement(
-        "li",
-        { key: index },
-        item['h1'],
-        React.createElement(
-          "span",
-          { style: { color: 'red', marginLeft: '10px', cursor: 'pointer' } },
-          "X"
-        )
-      );
-    };
-    return React.createElement(
-      "ul",
-      null,
-      this.props.items.map(createItem)
-    );
+    return make_label(this.props.label, this.props.value.toFixed(2), "%", "primary");
   }
 });
 
@@ -245,7 +218,7 @@ var HKApp = React.createClass({
   componentWillMount: function () {
     console.log("mount event");
     var firebaseRef = new Firebase('https://igrins-hk.firebaseio.com/BasicHK');
-    this.bindAsArray(firebaseRef.orderByChild('utc_now').limitToLast(1), 'items');
+    this.bindAsArray(firebaseRef.orderByChild('utc_upload').limitToLast(1), 'items');
   },
 
   componentDidMount: function(){
@@ -280,14 +253,14 @@ var HKApp = React.createClass({
 
   render: function () {
       if (this.state.items.length > 0) {
-	  console.log("render " + this.props.label);
+	  // console.log("render " + this.props.label);
 	  return React.createElement("div",
 				     {"className": "container-fluid"},
 				     React.createElement("div",
 							 {"className": "row"},
 							 React.createElement(DatetimeLabel, 
 									     {label: this.state.items[0]["date"] + " " + this.state.items[0]["time"],
-									      value: this.state.items[0]["utc_now"] }),
+									      value: this.state.items[0]["datetime"] }),
 							 React.createElement(PressureLabel, 
 									     { label: "Pressure",
 									       value: this.state.items[0]["pressure"] })

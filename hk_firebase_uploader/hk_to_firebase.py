@@ -5,6 +5,7 @@ from firebase import firebase
 import datetime
 import pytz
 
+telescope_list = ["McDonald", "DCT", "GeminiSouth"]
 
 class TokenUser(object):
     def __init__(self, token):
@@ -27,23 +28,27 @@ class FirebaseAuthentication(object):
 HKLogPath = "/IGRINS/Log/Web/tempweb.dat"
 # FieldNames = ['da','ti','va','t1','h1','t2','h2','t3','h3','t4','h4','t5','h5','t6','t7','t8']
 
-FieldNames = ['date', 'time',
-              'pressure',
-              'bench', 'bench_tc',
-              'grating', 'grating_tc',
-              'detH', 'detH_tc',
-              'detK', 'detK_tc',
-              'detS', 'detS_tc',
-              'coldhead01', 'coldhead02', 'chacoalbox']
+FieldNames = [('date', str), ('time', str),
+              ('pressure', float),
+              ('bench', float), ('bench_tc', float),
+              ('grating', float), ('grating_tc', float),
+              ('detH', float), ('detH_tc', float),
+              ('detK', float), ('detK_tc', float),
+              ('detS', float), ('detS_tc', float),
+              ('coldhead01', float), ('coldhead02', float),
+              ('chacoalbox', float)]
 
 
 def get_most_recent_hk_entry(fb):
     """
     """
     r = fb.get("BasicHK", None,
-               params=dict(orderBy='"utc_now"', limitToLast=1))
+               params=dict(orderBy='"utc_upload"', limitToLast=1))
 
-    return r.values()[0]
+    if r:
+        return r.values()[0]
+    else:
+        return None
 
 
 def get_firebase_token():
@@ -52,7 +57,16 @@ def get_firebase_token():
     return open(filename).read().strip()
 
 
-def start_upload_to_firebase():
+def read_item_to_upload():
+    HK_list = open(HKLogPath).read().split()
+    HK_dict = dict((k, t(v)) for (k, t), v in zip(FieldNames, HK_list))
+
+    HK_dict["datetime"] = HK_dict["date"] + "T" + HK_dict["time"] + "+00:00"
+
+    return HK_dict
+
+
+def start_upload_to_firebase(telescope_name):
 
     firebase_url = "https://igrins-hk.firebaseio.com/"
 
@@ -65,18 +79,18 @@ def start_upload_to_firebase():
 
     while True:
         #result = firebase.get('/BasicHK', None)
-        HK_list = open(HKLogPath).read().split()
-        HK_dict = dict(zip(FieldNames, HK_list))
+        HK_dict = read_item_to_upload()
 
-        if (HK_dict["date"] == last_entry["date"]) and \
+        if last_entry and \
+           (HK_dict["date"] == last_entry["date"]) and \
            (HK_dict["time"] == last_entry["time"]):
 
             yield None
 
         else:
 
-            HK_dict["utc_now"] = datetime.datetime.now(pytz.utc).isoformat()
-
+            HK_dict["utc_upload"] = datetime.datetime.now(pytz.utc).isoformat()
+            HK_dict["tel_name"] = telescope_name
             #firebase.put('/BasicHK', "upload", HK_dict)
             fb.post('/BasicHK', HK_dict)
 
@@ -85,13 +99,13 @@ def start_upload_to_firebase():
             yield HK_dict
 
 
-def main():
+def main(telescope_name):
     print '================================================'
     print 'IGRINS House Keeping Status Updater for Firebase'
     print '                                Ctrl + C to exit'
     print '================================================'
 
-    fb = start_upload_to_firebase()
+    fb = start_upload_to_firebase(telescope_name)
 
     try:
         while True:
@@ -114,4 +128,9 @@ def main():
 if __name__ == "__main__":
     import sys
 
-    main()
+    if len(sys.argv) == 2 and sys.argv[1] in telescope_list:
+        main(sys.argv[1])
+    else:
+        telescope_names = ", ".join(telescope_list)
+        print "The first argument must be a name of telescope [%s]" % \
+            (telescope_names,)
