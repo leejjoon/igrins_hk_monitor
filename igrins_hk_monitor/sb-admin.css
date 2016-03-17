@@ -32,6 +32,11 @@ body {
     line-height: normal;
 }
 
+.large {
+    font-size: 30px;
+    line-height: normal;
+}
+
 @media(min-width:768px) {
     #wrapper {
         padding-left: 225px;
@@ -170,6 +175,10 @@ ul.alert-dropdown {
 
 .huge {
     font-size: 40px;
+}
+
+.large {
+    font-size: 25px;
 }
 
 .panel-green {

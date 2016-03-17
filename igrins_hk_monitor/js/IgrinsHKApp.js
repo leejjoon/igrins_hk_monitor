@@ -40,7 +40,7 @@ function get_time_diff( datetime )
 var make_label12 = function (label, value, unit, context) {
       return React.createElement(
         "div",
-        { "className": "col-lg-6 col-md-12" },
+        { "className": "col-lg-12 col-md-12" },
         React.createElement(
           "div",
           { "className": "panel panel-" + context },
@@ -68,17 +68,6 @@ var make_label12 = function (label, value, unit, context) {
                     value + " " + unit
                 )
               )
-            )
-          ),
-          React.createElement(
-            "a",
-            { href: "#" },
-            React.createElement(
-              "div",
-              { "className": "panel-footer" },
-              React.createElement("span", { "className": "pull-left" }),
-              React.createElement("span", { "className": "pull-right" }),
-              React.createElement("div", { "className": "clearfix" })
             )
           )
         )
@@ -150,18 +139,45 @@ var DatetimeLabel = React.createClass({
 
       // console.log(day_hour_min)
 
+      context = "danger"
+
       if (day_hour_min[0] > 0) {
-	  msg = "older than " + day_hour_min[0] + " days";
+	  msg = "Last update older than " + day_hour_min[0] + " days";
       } else if (day_hour_min[1] > 0) {
-	  msg = "older than " + day_hour_min[1] + " hours";
-      } else if (day_hour_min[2] > 0) {
-	  msg = "older than " + day_hour_min[2] + " minutes";
+	  msg = "Last update older than " + day_hour_min[1] + " hours";
+      } else if (day_hour_min[2] > 2) {
+	  msg = "Last update older than " + day_hour_min[2] + " minutes";
       } else {
-	  msg = "current";
+	  msg = "Last update within a minute.";
+	  context = "warning"
       };
 
 
-    return make_label(this.props.label, msg, "", "warning");
+    return make_label12(msg, this.props.label, "", context);
+  }
+});
+
+function zeropad(num, size) {
+    var s = "000000000" + num;
+    return s.substr(s.length-size);
+}
+
+var CurrenttimeLabel = React.createClass({
+  displayName: "CurrentimeLabel",
+
+  render: function() {
+      var _this = this;
+
+      var now = new Date(); 
+
+      var fmt = "YEAR-MONTH-DAY HOUR:MINUTE:SECONDS"
+      msg= fmt.replace("YEAR", now.getUTCFullYear())
+	  .replace("MONTH", zeropad(now.getUTCMonth()+1, 2))
+	  .replace("DAY", zeropad(now.getUTCDate(), 2))
+	  .replace("HOUR", zeropad(now.getUTCHours(), 2))
+	  .replace("MINUTE", zeropad(now.getUTCMinutes(), 2))
+	  .replace("SECONDS", zeropad(now.getUTCSeconds(), 2))
+      return make_label12("Current Time", msg, "", "info");
   }
 });
 
@@ -171,7 +187,7 @@ var SimpleLabel = React.createClass({
 
   render: function() {
     var _this = this;
-    return make_label(this.props.label, this.props.value, "", "warning");
+    return make_label12(this.props.label, this.props.value, "", "warning");
   }
 });
 
@@ -189,7 +205,7 @@ var TempLabel = React.createClass({
 
   render: function() {
     var _this = this;
-    return make_label(this.props.label, this.props.value.toFixed(1), "C", "primary");
+    return make_label(this.props.label, this.props.value.toFixed(1), "K", "primary");
   }
 });
 
@@ -226,7 +242,7 @@ var HKApp = React.createClass({
         // componentDidMount is called by react when the component 
         // has been rendered on the page. We can set the interval here:
 
-      this.timer = setInterval(this.tick, 5000);
+      this.timer = setInterval(this.tick, 200);
   },
 
   componentWillUnmount: function(){
@@ -258,9 +274,18 @@ var HKApp = React.createClass({
 				     {"className": "container-fluid"},
 				     React.createElement("div",
 							 {"className": "row"},
+							 React.createElement(CurrenttimeLabel, 
+									     {label: "Current time :"
+									     })
+							),
+				     React.createElement("div",
+							 {"className": "row"},
 							 React.createElement(DatetimeLabel, 
 									     {label: this.state.items[0]["date"] + " " + this.state.items[0]["time"],
-									      value: this.state.items[0]["datetime"] }),
+									      value: this.state.items[0]["datetime"] })
+							),
+				     React.createElement("div",
+							 {"className": "row"},
 							 React.createElement(PressureLabel, 
 									     { label: "Pressure",
 									       value: this.state.items[0]["pressure"] })
@@ -327,9 +352,20 @@ var HKApp = React.createClass({
 							)
 				    );
       } else {
-	  return React.createElement(
-	      'div',
-	      null
+	  return React.createElement("div",
+				     {"className": "container-fluid"},
+				     React.createElement("div",
+							 {"className": "row"},
+							 React.createElement(CurrenttimeLabel, 
+									     {label: "Current time :"
+									     })
+							),
+				     React.createElement("div",
+							 {"className": "row"},
+							 React.createElement(SimpleLabel, 
+									     {label: "Waiting for DB connection",
+									      value: ""})
+							)
 	  );
       }
   }
