@@ -5,7 +5,7 @@ from firebase import firebase
 import datetime
 import pytz
 
-telescope_list = ["McDonald", "DCT", "GeminiSouth"]
+telescope_list = ["HJST", "DCT", "GeminiSouth"]
 
 class TokenUser(object):
     def __init__(self, token):
